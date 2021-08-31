@@ -15,16 +15,16 @@ My first SAT solver
 make install
 ```
 
-### lint
+### lint & format
 
 ```bash
 make lint
 ```
 
-### format
+### test
 
 ```bash
-make format
+make test
 ```
 
 ### run
@@ -33,8 +33,6 @@ make format
 make run
 ```
 
-### test
+## Reference
 
-```bash
-make test
-```
+- <https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html>
