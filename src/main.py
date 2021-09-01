@@ -5,7 +5,7 @@ Empty lines adn lines starting with a # will be ignored.
 """
 from argparse import ArgumentParser, FileType
 from sys import stdin, stdout
-from typing import Any, Generator, List, TextIO
+from typing import Any
 
 from libs.error import eprint
 from solver import recursive_sat
@@ -73,7 +73,7 @@ def main() -> Any:
     args = sat_parser().parse_args()
     with args.input:
         with args.output:
-            run_solver(args.verbose, input_file=args.input, output_file=args.output)
+            run_solver(input_file=args.input, output_file=args.output)
 
 
 if __name__ == "__main__":

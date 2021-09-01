@@ -1,5 +1,4 @@
-from collections import deque
-from typing import Deque, List, Optional
+from typing import List
 
 from libs.error import eprint
 
@@ -8,9 +7,11 @@ from .satinstance import SATInstance
 
 def dump_watchlist(instance: SATInstance, watchlist: List[List[List[int]]]) -> None:
     eprint("Current watchlist:")
-    for l, w in enumerate(watchlist):
-        literal_string = instance.literal_to_string(l)
-        clauses_string = ", ".join(instance.clause_to_string(c) for c in w)
+    for literal, _watchlist in enumerate(watchlist):
+        literal_string = instance.literal_to_string(literal)
+        clauses_string = ", ".join(
+            instance.clause_to_string(_clause) for _clause in _watchlist
+        )
         eprint(f"{literal_string}: {clauses_string}")
 
 
@@ -20,7 +21,7 @@ def setup_watchlist(instance: SATInstance) -> List[List[List[int]]]:
     watchlist has each variables' clause
     watchlist[variable] = clauses
     """
-    watchlist: List[List[int]] = [[] for _ in range(2 * len(instance.variables))]
+    watchlist: List[List[List[int]]] = [[] for _ in range(2 * len(instance.variables))]
     for clause in instance.clauses:
         watchlist[clause[0]].append(clause)
     return watchlist
@@ -35,7 +36,8 @@ def update_watchlist(
     """
     Updates the watch list after literal `false_literal` was just assigned False.
     By making any clause watching, `false_literal` watch something else.
-    Return False if it is impossible to do so, meaning a clause is contradicted by the current assignment.
+    Return False if it is impossible to do so,
+        meaning a clause is contradicted by the current assignment.
     """
     while watchlist[false_literal]:
         clause: List[int] = watchlist[false_literal][0]

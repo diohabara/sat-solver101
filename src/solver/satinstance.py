@@ -1,21 +1,25 @@
 """
 Some notes on encoding:
 * Variables are encoded as numbers 0 to n-1.
-* Literal v is encoded as 2*v and ~v as 2*v+1. So the foremost bit of a literal encodes whether it is negated or not. This can be tested simply with checking if l & 1 is 0 or 1.
-* To negate a literal, we just have to toggle the foremost bit. This ca be done easily by an XOR with 1: the negation of l is l ^ 1.
-* To get a literal's variable, we just need to shift to the right. This can be done with l >> 1.
+* Literal v is encoded as 2*v and ~v as 2*v+1.
+    So the foremost bit of a literal encodes whether it is negated or not.
+    This can be tested simply with checking if l & 1 is 0 or 1.
+* To negate a literal, we just have to toggle the foremost bit.
+    This ca be done easily by an XOR with 1: the negation of l is l ^ 1.
+* To get a literal's variable, we just need to shift to the right.
+    This can be done with l >> 1.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, TextIO
 
 
 @dataclass
 class SATInstance:
-    variables: List[str] = []
-    variable_table: Dict[str, int] = {}
-    clauses: List[List[int]] = []
+    variable_table: Dict[str, int] = field(default_factory=dict)
+    variables: List[str] = field(default_factory=list)
+    clauses: List[List[int]] = field(default_factory=list)
 
     @classmethod
     def from_file(cls, file: TextIO) -> SATInstance:
@@ -46,7 +50,7 @@ class SATInstance:
         return s + self.variables[literal >> 1]
 
     def clause_to_string(self, clause: List[int]) -> str:
-        return "".join(self.literal_to_string(l) for l in clause)
+        return "".join(self.literal_to_string(literal) for literal in clause)
 
     def assignment_to_string(self, assignment: List[int]) -> str:
         literals: List[str] = []

@@ -1,8 +1,9 @@
 from __future__ import print_function
 
-from sys import stderr
 from typing import Any
+
+import logger
 
 
 def eprint(*args: Any, **kwargs: Any) -> None:
-    print(*args, **kwargs, file=stderr)
+    logger.error(*args, **kwargs)
