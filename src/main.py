@@ -5,7 +5,7 @@ Empty lines adn lines starting with a # will be ignored.
 """
 from argparse import ArgumentParser, FileType
 from sys import stdin, stdout
-from typing import Any
+from typing import Any, TextIO
 
 from libs.error import eprint
 from solver import recursive_sat
@@ -22,13 +22,13 @@ def generate_assignments(instance: SATInstance) -> Any:
     watchlist = setup_watchlist(instance)
     if not watchlist:
         return ""
-    assignment = [None] * n
+    assignment = [-1] * n
     return recursive_sat.solve(instance, watchlist, assignment, 0)
 
 
 def run_solver(
-    input_file: Any,
-    output_file: Any,
+    input_file: TextIO,
+    output_file: TextIO,
 ) -> Any:
     """
     run the given solver fo the given file-like input object
