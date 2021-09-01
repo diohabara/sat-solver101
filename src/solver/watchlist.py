@@ -50,7 +50,8 @@ def update_watchlist(
             If x is TRUE, assignment[x] is 1.
             If FALSE, assignment[x] is 0.
             """
-            if not assignment[v] or assignment[v] == a ^ 1:
+            if assignment[v] == -1 or assignment[v] == a ^ 1:
+                print(a, v)
                 found_alternative = True
                 del watchlist[false_literal][0]
                 watchlist[alternative].append(clause)

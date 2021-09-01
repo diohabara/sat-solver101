@@ -17,6 +17,16 @@ from typing import Dict, List, TextIO
 
 @dataclass
 class SATInstance:
+    """
+    variable_table[variable_name] = (the number of variables that was added before this)
+    variables = [a1, a2, a3, ..., an]
+    clauses: = [
+            [1, 2, 4], # a1 is False, a2 is True, a3 is True
+            [3, 5, 7], # a2 is False, a3 is False, a4 is False
+            [8, 3, 0]  # a5 is True, a2 is False, a1 is True
+        ]
+    """
+
     variable_table: Dict[str, int] = field(default_factory=dict)
     variables: List[str] = field(default_factory=list)
     clauses: List[List[int]] = field(default_factory=list)
@@ -26,7 +36,7 @@ class SATInstance:
         instance = cls()
         for line in file:
             line = line.strip()
-            if len(line) == 0 and line.startswith("#"):
+            if len(line) == 0 or line.startswith("#"):
                 continue
             instance.parse_and_add_clause(line)
         return instance

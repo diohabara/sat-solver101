@@ -1,9 +1,10 @@
 from __future__ import print_function
 
+import logging
+from sys import stderr
 from typing import Any
-
-import logger
 
 
 def eprint(*args: Any, **kwargs: Any) -> None:
-    logger.error(*args, **kwargs)
+    logging.basicConfig(filename="example.log", encoding="utf-8", level=logging.DEBUG)
+    logging.warning(*args, **kwargs)
